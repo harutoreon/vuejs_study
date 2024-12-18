@@ -1,6 +1,6 @@
 // import './assets/main.css'
 
 import { createApp } from 'vue'
-import App from './SimpleComponent.vue'
+import App from './HandlingJson.vue'
 
 createApp(App).mount('#app')
