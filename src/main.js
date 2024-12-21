@@ -1,6 +1,6 @@
 // import './assets/main.css'
 
 import { createApp } from 'vue'
-import App from './AxionResponse.vue'
+import App from './AxiosError.vue'
 
 createApp(App).mount('#app')
