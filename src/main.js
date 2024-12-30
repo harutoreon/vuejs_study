@@ -1,6 +1,10 @@
 // import './assets/main.css'
+import './assets/style.css'
 
 import { createApp } from 'vue'
-import App from './AxiosInterceptors.vue'
+import router from './router'
+import App from './App.vue'
 
-createApp(App).mount('#app')
+createApp(App)
+  .use(router)
+  .mount('#app')
