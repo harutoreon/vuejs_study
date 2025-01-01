@@ -1,7 +1,4 @@
 import { createApp } from 'vue'
-import router from './router'
-import App from './App.vue'
+import App from './FetchingData.vue'
 
-createApp(App)
-  .use(router)
-  .mount('#app')
+createApp(App).mount('#app')
