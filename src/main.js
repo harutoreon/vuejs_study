@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import App from './GridWithSortAndFilter.vue'
+import App from './Counter.vue'
 
 createApp(App).mount('#app')
