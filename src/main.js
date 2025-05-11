@@ -1,4 +1,4 @@
 import { createApp } from 'vue'
-import App from './components/tree-view/TreeItemApp.vue'
+import App from './App.vue'
 
 createApp(App).mount('#app')

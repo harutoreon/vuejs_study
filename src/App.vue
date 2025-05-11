@@ -1,7 +1,7 @@
 <script setup>
-import Counter from './components/Counter.vue'
+import Computed from './components/sample/Computed.vue'
 </script>
 
 <template>
-  <Counter />
+  <Computed />
 </template>
