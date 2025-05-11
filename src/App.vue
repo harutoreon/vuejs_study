@@ -1,7 +1,7 @@
 <script setup>
-import Computed from './components/sample/Computed.vue'
+import ComputedGetterSetter from './components/sample/ComputedGetterSetter.vue'
 </script>
 
 <template>
-  <Computed />
+  <ComputedGetterSetter />
 </template>
