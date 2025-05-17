@@ -1,7 +1,7 @@
 <script setup>
-import ComputedSetter from './components/sample/ComputedSetter.vue';
+import FormData from './components/formdata/FormData.vue'
 </script>
 
 <template>
-  <ComputedSetter />
+  <FormData />
 </template>
