@@ -1,7 +1,7 @@
 <script setup>
-import FormData from './components/formdata/FormData.vue'
+import Crud from '@/components/crud/crud.vue'
 </script>
 
 <template>
-  <FormData />
+  <Crud />
 </template>
