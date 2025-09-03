@@ -38,14 +38,16 @@ function update() {
   }
 }
 
+// names の要素削除と selected の初期化
 function del() {
   if (selected.value) {
-    const i = names.indexOf(selected.value)
-    names.splice(i, 1)
-    selected.value = first.value = last.value = ''
+    const i = names.indexOf(selected.value)         // 選択された要素の添え字が入る
+    names.splice(i, 1).                             // リアクティブ変数 names の添え字 i の要素を削除
+    selected.value = first.value = last.value = ''  // リアクティブ変数 selected の初期化
   }
 }
 
+// first と last の値の両端のスペースを除去
 function hasValidInput() {
   return first.value.trim() && last.value.trim()
 }
