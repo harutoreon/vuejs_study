@@ -21,16 +21,19 @@ watch(selected, (name) => {
   [last.value, first.value] = name.split(', ')
 })
 
+// 新しい要素を name に追加
+// first と last の初期化
 function create() {
   if (hasValidInput()) {
     const fullName = `${last.value}, ${first.value}`
-    if (!names.includes(fullName)) {
+    if (!names.includes(fullName)) {  // names の各要素と fullName の値を比較し、同じ要素がなければ処理を実行
       names.push(fullName)
       first.value = last.value = ''
     }
   }
 }
 
+// 添え字 i の要素の値を更新
 function update() {
   if (hasValidInput() && selected.value) {
     const i = names.indexOf(selected.value)
