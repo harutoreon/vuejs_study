@@ -11,6 +11,10 @@ const prefix = ref('')
 const first = ref('')
 const last = ref('')
 
+// prefix の値が変更した場合、filteredNames を再計算する
+// 各要素の値を小文字に変換し、その値が prefix の値で始まるかテストする
+// テストが成功すれば true が返り、失敗すれば false が返る
+// true になる要素のみ filteredNames に追加される
 const filteredNames = computed(() =>
   names.filter((n) =>
     n.toLowerCase().startsWith(prefix.value.toLowerCase())
