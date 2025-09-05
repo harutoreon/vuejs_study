@@ -17,6 +17,7 @@ const filteredNames = computed(() =>
   )
 )
 
+// selected の値が変化した場合、その値を「, 」で分割して last と first に代入
 watch(selected, (name) => {
   [last.value, first.value] = name.split(', ')
 })
