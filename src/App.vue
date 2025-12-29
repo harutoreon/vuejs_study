@@ -1,7 +1,7 @@
 <script setup>
-import Crud from '@/components/crud/crud.vue'
+import ListWithTransitions from '@/components/list-with-transitions/ListWithTransitions.vue'
 </script>
 
 <template>
-  <Crud />
+  <ListWithTransitions />
 </template>
