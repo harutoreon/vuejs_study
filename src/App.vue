@@ -1,7 +1,7 @@
 <script setup>
-import ListWithTransitions from '@/components/list-with-transitions/ListWithTransitions.vue'
+import ModalApp from '@/components/modal-with-transitions/ModalApp.vue'
 </script>
 
 <template>
-  <ListWithTransitions />
+  <ModalApp />
 </template>
