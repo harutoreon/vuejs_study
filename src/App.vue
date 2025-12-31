@@ -1,7 +1,7 @@
 <script setup>
-import Timer from '@/components/timer/Timer.vue'
+import FlightBooker from '@/components/flight-booker/FlightBooker.vue'
 </script>
 
 <template>
-  <Timer />
+  <FlightBooker />
 </template>
