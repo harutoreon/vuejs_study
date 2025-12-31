@@ -1,7 +1,7 @@
 <script setup>
-import ModalApp from '@/components/modal-with-transitions/ModalApp.vue'
+import Timer from '@/components/timer/Timer.vue'
 </script>
 
 <template>
-  <ModalApp />
+  <Timer />
 </template>
