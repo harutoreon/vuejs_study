@@ -1,7 +1,7 @@
 <script setup>
-import MyComponent from "@/components/MyComponent.vue"
+import MouseComponent from "@/components/MouseComponent.vue"
 </script>
 
 <template>
-  <MyComponent />
+  <MouseComponent />
 </template>
