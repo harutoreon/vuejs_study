@@ -1,7 +1,7 @@
 <script setup>
-import FlightBooker from '@/components/flight-booker/FlightBooker.vue'
+import MyComponent from "@/components/MyComponent.vue"
 </script>
 
 <template>
-  <FlightBooker />
+  <MyComponent />
 </template>
