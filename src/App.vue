@@ -1,7 +1,7 @@
 <script setup>
-import FlightBooker from '@/components/flight-booker/FlightBooker.vue'
+import AsynchronousStateComponent from "@/components/AsynchronousStateComponent.vue"
 </script>
 
 <template>
-  <FlightBooker />
+  <AsynchronousStateComponent />
 </template>
