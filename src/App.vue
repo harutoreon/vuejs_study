@@ -1,7 +1,7 @@
 <script setup>
-import MouseComponent from "@/components/MouseComponent.vue"
+import AsynchronousStateComponent from "@/components/AsynchronousStateComponent.vue"
 </script>
 
 <template>
-  <MouseComponent />
+  <AsynchronousStateComponent />
 </template>
