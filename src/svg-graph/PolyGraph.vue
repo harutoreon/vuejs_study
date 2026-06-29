@@ -1,7 +1,7 @@
 <script setup>
 import AxisLabel from './AxisLabel.vue'
 import { computed } from 'vue'
-import { valueToPoint } from './util.js'
+import { valueToPoint } from '@/svg-graph/util.js'
 
 const props = defineProps({
   stats: Array

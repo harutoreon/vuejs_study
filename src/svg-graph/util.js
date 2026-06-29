@@ -1,4 +1,4 @@
-function valueToPoint(value, index, total) {
+export function valueToPoint(value, index, total) {
   const x = 0
   const y = -value * 0.8
   const angle = ((Math.PI * 2) / total) * index
@@ -11,5 +11,3 @@ function valueToPoint(value, index, total) {
     y: ty
   }
 }
-
-console.log(valueToPoint(1, 1, 2))
