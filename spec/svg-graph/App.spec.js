@@ -1,9 +1,5 @@
 // ロジック
 
-// ref, reactive の初期値
-// newLabel
-// stats
-
 // add()
 // newLabel が有効な場合、stats にオブジェクトが追加されて newLabel がリセットされる
 // newLabel が有効な場合、イベントオブジェクトの preventDefault が呼ばれること
@@ -41,3 +37,40 @@
 // 4. v-model に .number 修飾子（v-model.number="stat.value" ）をつける
 // 5. テストを再実行して、3. が pass することを確認
 
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { mount } from '@vue/test-utils'
+import App from '@/svg-graph/App.vue'
+
+describe('App', () => {
+  describe('初期値の検証', () => {
+    it('newLabel の初期値が空文字であること', () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+      const input = wrapper.find('#add input')
+
+      expect(input.element.value).toBe('')
+    })
+
+    it('stats の初期値が label と value を持つオブジェクのリストであること', () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+      const labels = wrapper.findAll('label')
+      const inputRanges = wrapper.findAll('input[type="range"]')
+      const stats = [
+        { label: 'A', value: 100 },
+        { label: 'B', value: 100 },
+        { label: 'C', value: 100 },
+        { label: 'D', value: 100 },
+        { label: 'E', value: 100 },
+        { label: 'F', value: 100 }
+      ]
+
+      stats.forEach((stat, index) => {
+        expect(stat.label).toBe(labels[index].text())
+        expect(stat.value).toBe(Number(inputRanges[index].element.value))
+      })
+    })
+  })
+})
