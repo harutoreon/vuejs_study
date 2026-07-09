@@ -2,11 +2,6 @@
 // stub 化した PolyGraph が App.vue から受け取った props（stats）を検証する
 // add/remove 後に props が更新されて渡っているか
 
-// イベント
-// remove クリックイベントが発火すると、指定したスライダーが削除される
-// remove クリックイベントが発火すると、削除された後に残っている要素が正しいこと
-// remove クリックイベントが発火すると、整形済みテキストのリストも更新されること
-
 // スライダーの操作
 // スライダー操作後に stat.value の型が文字列ではなく数値になること
 // 1. 初期状態で stat.value の型が文字列であることを検証（pass）
@@ -107,6 +102,25 @@ describe('App', () => {
       const event = new Event('click', { cancelable: true })
       addButton.dispatchEvent(event)
       expect(event.defaultPrevented).toBe(true)
+    })
+  })
+
+  describe('remove', () => {
+    it('x ボタンを押すと、指定したコントローラが削除され、整形済みテキストが更新される', async () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+
+      const beforeDiv = wrapper.findAll('div')
+      const removeButtonF = beforeDiv.at(-1).find('button')
+      const beforePre = wrapper.find('#raw')
+      expect(beforePre.text()).toContain('F')
+
+      await removeButtonF.trigger('click')
+
+      const afterDiv = wrapper.findAll('div')
+      const afterPre = wrapper.find('#raw')
+      expect(afterPre.text()).not.toContain('F')
     })
   })
 })
