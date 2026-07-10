@@ -1,7 +1,3 @@
-// props
-// stub 化した PolyGraph が App.vue から受け取った props（stats）を検証する
-// add/remove 後に props が更新されて渡っているか
-
 // スライダーの操作
 // スライダー操作後に stat.value の型が文字列ではなく数値になること
 // 1. 初期状態で stat.value の型が文字列であることを検証（pass）
@@ -13,6 +9,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import App from '@/svg-graph/App.vue'
+import PolyGraph from '@/svg-graph/PolyGraph.vue'
 
 describe('App', () => {
   describe('初期値の検証', () => {
@@ -41,8 +38,8 @@ describe('App', () => {
       ]
 
       stats.forEach((stat, index) => {
-        expect(stat.label).toBe(labels[index].text())
-        expect(stat.value).toBe(Number(inputRanges[index].element.value))
+        expect(labels[index].text()).toBe(stat.label)
+        expect(Number(inputRanges[index].element.value)).toBe(stat.value)
       })
     })
   })
@@ -78,7 +75,7 @@ describe('App', () => {
 
       const labels = wrapper.findAll('label')
       const input = wrapper.find('#add input')
-      const beforePre = wrapper.find('#raw')
+      const beforeText = wrapper.find('#raw').text()
 
       expect(labels.at(-1).text()).toBe('F')
       expect(input.element.value).toBe('')
@@ -86,11 +83,11 @@ describe('App', () => {
       const button = wrapper.find('#add button')
       await button.trigger('click')
 
-      const afterPre = wrapper.find('#raw')
+      const afterText = wrapper.find('#raw').text()
 
       expect(labels.at(-1).text()).toBe('F')
       expect(input.element.value).toBe('')
-      expect(beforePre.text() === afterPre.text()).toBe(true)
+      expect(beforeText).toBe(afterText)
     })
 
     it('preventDefault が呼ばれること', () => {
@@ -100,6 +97,9 @@ describe('App', () => {
 
       const addButton = wrapper.find('#add button').element
       const event = new Event('click', { cancelable: true })
+
+      // trigger() は非同期なため、同期的に defaultPrevented を検証するには
+      // dispatchEvent を直接使う必要がある
       addButton.dispatchEvent(event)
       expect(event.defaultPrevented).toBe(true)
     })
@@ -111,16 +111,88 @@ describe('App', () => {
         global: { stubs: { PolyGraph: true } }
       })
 
-      const beforeDiv = wrapper.findAll('div')
-      const removeButtonF = beforeDiv.at(-1).find('button')
-      const beforePre = wrapper.find('#raw')
-      expect(beforePre.text()).toContain('F')
+      const div = wrapper.find('div')
+
+      const beforeLabelText = div.find('label').text()
+      const beforePreText = wrapper.find('#raw').text()
+
+      const removeButton = div.find('button[class="remove"]')
+      await removeButton.trigger('click')
+
+      const afterLabelText = div.find('label').text()
+      const afterPreText = wrapper.find('#raw').text()
+
+      expect(beforeLabelText).not.toBe(afterLabelText)
+      expect(beforePreText).not.toBe(afterPreText)
+    })
+  })
+
+  describe('PolyGraph への props 受け渡し', () => {
+    it('初期状態で stats が正しく PolyGraph に渡されること', () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+
+      const polyGraph = wrapper.findComponent(PolyGraph)
+
+      expect(polyGraph.exists()).toBe(true)
+      expect(polyGraph.props('stats')).toEqual(
+        [
+          { label: 'A', value: 100 },
+          { label: 'B', value: 100 },
+          { label: 'C', value: 100 },
+          { label: 'D', value: 100 },
+          { label: 'E', value: 100 },
+          { label: 'F', value: 100 }
+        ]
+      )
+    })
+
+    it('コントローラの値を変更すると、PolyGraph に渡される stats も更新されること', async () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+
+      const inputRanges = wrapper.findAll('input[type="range"]')
+      await inputRanges[0].setValue('50')
+
+      const polyGraph = wrapper.findComponent(PolyGraph)
+      const stats = polyGraph.props('stats')
+
+      expect(stats[0]).toEqual({ label: 'A', value: '50' })
+    })
+
+    it('add で新しいコントローラを追加すると、PolyGraph の stats にも反映されること', async () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+
+      const input = wrapper.find('#add input')
+      await input.setValue('G')
+
+      const button = wrapper.find('#add button')
+      await button.trigger('click')
+
+      const polyGraph = wrapper.findComponent(PolyGraph)
+      const stats = polyGraph.props('stats')
+
+      expect(stats.at(-1)).toEqual({ label: 'G', value: 100 })
+    })
+
+    it('remove でコントローラを削除すると、PolyGraph の stats にも反映されること', async () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+
+      const divs = wrapper.findAll('div')
+      const removeButtonF = divs.at(-1).find('button')
 
       await removeButtonF.trigger('click')
 
-      const afterDiv = wrapper.findAll('div')
-      const afterPre = wrapper.find('#raw')
-      expect(afterPre.text()).not.toContain('F')
+      const polyGraph = wrapper.findComponent(PolyGraph)
+      const stats = polyGraph.props('stats')
+
+      expect(stats.some(stat => stat.label === 'F')).toBe(false)
     })
   })
 })
