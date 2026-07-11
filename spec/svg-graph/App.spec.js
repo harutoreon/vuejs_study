@@ -1,11 +1,3 @@
-// スライダーの操作
-// スライダー操作後に stat.value の型が文字列ではなく数値になること
-// 1. 初期状態で stat.value の型が文字列であることを検証（pass）
-// 2. スライダーを操作（stat.value を変更）する
-// 3. stat.value の型が数値であることを検証（fail）
-// 4. v-model に .number 修飾子（v-model.number="stat.value" ）をつける
-// 5. テストを再実行して、3. が pass することを確認
-
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import App from '@/svg-graph/App.vue'
@@ -154,12 +146,12 @@ describe('App', () => {
       })
 
       const inputRanges = wrapper.findAll('input[type="range"]')
-      await inputRanges[0].setValue('50')
+      await inputRanges[0].setValue(50)
 
       const polyGraph = wrapper.findComponent(PolyGraph)
       const stats = polyGraph.props('stats')
 
-      expect(stats[0]).toEqual({ label: 'A', value: '50' })
+      expect(stats[0]).toEqual({ label: 'A', value: 50 })
     })
 
     it('add で新しいコントローラを追加すると、PolyGraph の stats にも反映されること', async () => {
@@ -193,6 +185,23 @@ describe('App', () => {
       const stats = polyGraph.props('stats')
 
       expect(stats.some(stat => stat.label === 'F')).toBe(false)
+    })
+  })
+
+  describe('スライダーの動作検証', () => {
+    it('スライダー操作後に stat.value の型が数値になること', async () => {
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+
+      expect(wrapper.vm.stats[0].value).toBe(100)
+      expect(typeof wrapper.vm.stats[0].value).toBe('number')
+
+      const inputRanges = wrapper.findAll('input[type="range"]')[0]
+      await inputRanges.setValue(50)
+
+      expect(wrapper.vm.stats[0].value).toBe(50)
+      expect(typeof wrapper.vm.stats[0].value).toBe('number')
     })
   })
 })

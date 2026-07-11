@@ -39,7 +39,7 @@ function remove(stat) {
   <!-- controls -->
   <div v-for="stat in stats">
     <label>{{stat.label}}</label>
-    <input type="range" v-model="stat.value" min="0" max="100">
+    <input type="range" v-model.number="stat.value" min="0" max="100">
     <span>{{stat.value}}</span>
     <button @click="remove(stat)" class="remove">X</button>
   </div>
