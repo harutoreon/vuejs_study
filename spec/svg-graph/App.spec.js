@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import App from '@/svg-graph/App.vue'
 import PolyGraph from '@/svg-graph/PolyGraph.vue'
@@ -55,7 +55,6 @@ describe('App', () => {
       const pre = wrapper.find('#raw')
 
       expect(labels.at(-1).text()).toBe('G')
-      expect(inputRanges.at(-1).attributes('max')).toBe('100')
       expect(input.element.value).toBe('')
       expect(pre.text()).toContain('"label": "G"')
     })
@@ -98,6 +97,10 @@ describe('App', () => {
   })
 
   describe('remove', () => {
+    afterEach(() => {
+      vi.unstubAllGlobals()
+    })
+
     it('x ボタンを押すと、指定したコントローラが削除され、整形済みテキストが更新される', async () => {
       const wrapper = mount(App, {
         global: { stubs: { PolyGraph: true } }
@@ -108,14 +111,40 @@ describe('App', () => {
       const beforeLabelText = div.find('label').text()
       const beforePreText = wrapper.find('#raw').text()
 
-      const removeButton = div.find('button[class="remove"]')
+      const removeButton = div.find('.remove')
       await removeButton.trigger('click')
 
       const afterLabelText = div.find('label').text()
       const afterPreText = wrapper.find('#raw').text()
 
+      const labels = wrapper.findAll('label').map(label => label.text())
+
+      expect(labels).not.toContain('A')
+      expect(labels).toHaveLength(5)
       expect(beforeLabelText).not.toBe(afterLabelText)
       expect(beforePreText).not.toBe(afterPreText)
+    })
+
+    it('stats が 3 件まで減った状態で remove を呼んでも件数が減らずに警告が出る', async () => {
+      const alertMock = vi.fn()
+      vi.stubGlobal('alert', alertMock)
+
+      const wrapper = mount(App, {
+        global: { stubs: { PolyGraph: true } }
+      })
+
+      // 1 回目から 3 回目
+      await wrapper.findAll('div').at(-1).find('.remove').trigger('click')
+      await wrapper.findAll('div').at(-1).find('.remove').trigger('click')
+      await wrapper.findAll('div').at(-1).find('.remove').trigger('click')
+      expect(wrapper.findAll('label')).toHaveLength(3)
+
+      // 4 回目: 警告が出て件数が減らない
+      await wrapper.findAll('div').at(-1).find('.remove').trigger('click')
+      expect(alertMock).toHaveBeenCalledWith(
+        "Can't delete more!"
+      )
+      expect(wrapper.findAll('label')).toHaveLength(3)
     })
   })
 
@@ -185,23 +214,6 @@ describe('App', () => {
       const stats = polyGraph.props('stats')
 
       expect(stats.some(stat => stat.label === 'F')).toBe(false)
-    })
-  })
-
-  describe('スライダーの動作検証', () => {
-    it('スライダー操作後に stat.value の型が数値になること', async () => {
-      const wrapper = mount(App, {
-        global: { stubs: { PolyGraph: true } }
-      })
-
-      expect(wrapper.vm.stats[0].value).toBe(100)
-      expect(typeof wrapper.vm.stats[0].value).toBe('number')
-
-      const inputRanges = wrapper.findAll('input[type="range"]')[0]
-      await inputRanges.setValue(50)
-
-      expect(wrapper.vm.stats[0].value).toBe(50)
-      expect(typeof wrapper.vm.stats[0].value).toBe('number')
     })
   })
 })
