@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang=en>
+  <head>
+    <meta charset=utf-8>
+    <link rel=icon href=data:,>
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <title>Example Domain</title>
+    <style>
+      html{color-scheme:light dark;background:light-dark(#eee,#222)}body{font:16px/1.6 system-ui,sans-serif;max-width:26em;margin:auto;padding:25vh 2em 2em;text-align:center}
+    </style>
+  </head>
+  <body>
+    <p>
+      This domain is for use in documentation examples without needing permission.
+      This is not a service; avoid relying on it for testing and monitoring purposes.
+    </p>
+    <ul>
+
+    </ul>
+    <button>click!!</button>
+  </body>
+  <script>
+    // 取得
+    const title = document.querySelector('title');
+    console.log(title);  // <title>Example Domain</title>
+
+    // 変更
+    title.textContent = 'New Example Domain';
+    console.log(title.textContent);  // New Example Domain
+
+    // 追加
+    const li = document.createElement('li');
+    li.textContent = 'New li';
+    document.querySelector('ul').appendChild(li);
+
+    // 削除
+    const items = document.querySelectorAll('li');
+    console.log(items[0].textContent);  // New li
+    items[0].remove();
+
+    // イベント
+    const button = document.querySelector('button');
+    button.addEventListener('click', () => {
+      console.log('clicking');
+    });
+  </script>
+</html>
