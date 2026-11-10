@@ -1,7 +1,7 @@
 <script setup>
-import AsynchronousStateComponent from "@/components/AsynchronousStateComponent.vue"
+import SetupBootstrap from '@/bootstrap/SetupBootstrap.vue'
 </script>
 
 <template>
-  <AsynchronousStateComponent />
+  <SetupBootstrap />
 </template>
