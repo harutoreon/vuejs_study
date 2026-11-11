@@ -1,7 +1,7 @@
 <script setup>
-import SetupBootstrap from '@/bootstrap/SetupBootstrap.vue'
+import GetOrCreateInstance from '@/bootstrap/toast/GetOrCreateInstance.vue'
 </script>
 
 <template>
-  <SetupBootstrap />
+  <GetOrCreateInstance />
 </template>
