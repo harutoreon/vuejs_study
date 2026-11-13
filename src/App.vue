@@ -1,7 +1,7 @@
 <script setup>
-import GetOrCreateInstance from '@/bootstrap/toast/GetOrCreateInstance.vue'
+import RemoveEventListener from '@/dom/RemoveEventListener.vue'
 </script>
 
 <template>
-  <GetOrCreateInstance />
+  <RemoveEventListener />
 </template>
