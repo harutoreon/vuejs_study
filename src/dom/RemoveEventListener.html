@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang=en>
+  <body>
+    <button type="button" class="btn">Save</button>
+
+    <script>
+      const button = document.querySelector('.btn');
+
+      function handleClick() {
+        console.log('It was clicked.');
+
+        // remove
+        button.removeEventListener('click', handleClick);
+      }
+
+      // add
+      button.addEventListener('click', handleClick);
+    </script>
+  </body>
+</html>
